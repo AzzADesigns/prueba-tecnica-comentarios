@@ -11,11 +11,12 @@ Una vez inicializado el proyecto con Next.js y todas las dependencias solicitada
 📦 **Carpeta:** `src/GLOBAL/ui/`
 
 📌 **Tareas:**
-- Crear átomos: `Button`, `Heading`, `Text`, `Icon`, etc.
-- Crear moléculas: `CommentCard`, `CommentForm`, etc.
-- Agregar sus respectivos `.stories.tsx` para Storybook.
-- Estilarlos con Tailwind y Material UI (según el diseño).
-- Exportar todo desde `ui/index.ts`.
+
+-   Crear átomos: `Button`, `Heading`, `Text`, `Icon`, etc.
+-   Crear moléculas: `CommentCard`, `CommentForm`, etc.
+-   Agregar sus respectivos `.stories.tsx` para Storybook.
+-   Estilarlos con Tailwind y Material UI (según el diseño).
+-   Exportar todo desde `ui/index.ts`.
 
 ESTADO: [pendiente]
 
