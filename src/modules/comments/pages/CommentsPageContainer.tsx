@@ -1,15 +1,24 @@
 "use client";
 import React from "react";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { CommentGrid } from "../components/CommentGrid";
 import { usePaginatedComments } from "../hooks/usePaginatedComments";
 import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 import { NewCommentModalContainer } from "../components/NewCommentModalContainer";
 import { EditCommentModalContainer } from "../components/EditCommentModalContainer";
 import { FeedbackSnackbar } from "@/GLOBAL/ui";
+import styled from "styled-components";
 
 import { useLocalCommentsStore } from "../store/localCommentsStore";
 import { useCommentOperations } from "../hooks/useCommentOperations";
+
+const StyledTitle = styled.h1`
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 1rem;
+  text-align: center;
+`;
 
 export const CommentsPageContainer: React.FC = () => {
     const {
@@ -60,9 +69,7 @@ export const CommentsPageContainer: React.FC = () => {
                         mb: 2,
                     }}
                 >
-                    <Typography variant="h4" sx={{ color: "#000", mb: 1 }}>
-                        Comentarios
-                    </Typography>
+                    <StyledTitle>Lista de Comentarios</StyledTitle>
                     <NewCommentModalContainer
                         onCommentCreated={handleCommentCreated}
                     />
@@ -78,12 +85,10 @@ export const CommentsPageContainer: React.FC = () => {
                         alignItems="center"
                         my={4}
                     >
-                        <Typography color="error">
-                            Error al cargar comentarios
-                        </Typography>
+                        <StyledTitle style={{ color: '#d32f2f', fontSize: '1.5rem' }}>Error al cargar comentarios</StyledTitle>
                     </Box>
                 ) : isEmpty ? (
-                    <Typography>No hay comentarios.</Typography>
+                    <StyledTitle style={{ fontSize: '1.5rem', fontWeight: 'normal' }}>No hay comentarios.</StyledTitle>
                 ) : (
                     <>
                         <CommentGrid
