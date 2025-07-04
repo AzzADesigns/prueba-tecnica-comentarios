@@ -13,7 +13,7 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children }) 
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
             {title && (
-                <DialogTitle sx={{ m: 0, p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <DialogTitle sx={{ m: 0, p: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     {title}
                     <IconButton aria-label="close" onClick={onClose} sx={{ ml: 2 }}>
                         <CloseIcon />
