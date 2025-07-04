@@ -14,14 +14,14 @@ export const CommentGrid: React.FC<CommentGridProps> = ({ comments, onEdit, onDe
             style={{
                 display: 'grid',
                 gap: 16,
-                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                justifyItems: 'center',
+                gridTemplateColumns: 'repeat(auto-fit, 340px)',
+                justifyContent: 'center',
                 maxWidth: 1200,
                 margin: '0 auto',
             }}
         >
             {comments.map((comment) => (
-                <div key={comment.id}>
+                <div key={comment.id} style={{ width: 340 }}>
                     <CommentCard
                         title={comment.name}
                         body={comment.body}
