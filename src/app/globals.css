@@ -24,7 +24,7 @@
         --color-secondary: #0a0a0a;
         --color-tertiary: #222222;
 
-        --background: var(--color-secondary);
+        --background: var(--color-primary);
         --foreground: var(--color-primary);
     }
 }

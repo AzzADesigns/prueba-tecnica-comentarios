@@ -1,6 +1,7 @@
-import React from 'react';
-import { Box, Stack } from '@mui/material';
+'use client';
 
+import React, { useRef, useState, useEffect } from 'react';
+import { Box, Stack } from '@mui/material';
 import { Button } from '../../atoms/Button/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -21,6 +22,16 @@ export const CommentCard: React.FC<CommentCardProps> = ({
     onEdit,
     onDelete,
 }) => {
+    const [expanded, setExpanded] = useState(false);
+    const [showButton, setShowButton] = useState(false);
+    const textRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (textRef.current) {
+            setShowButton(textRef.current.scrollHeight > textRef.current.clientHeight);
+        }
+    }, [body]);
+
     return (
         <Box
             sx={{
@@ -31,16 +42,49 @@ export const CommentCard: React.FC<CommentCardProps> = ({
                 minWidth: 320,
                 maxWidth: 360,
                 boxShadow: '2px 4px 0 #bdbdbd',
+                transition: 'max-height 0.3s cubic-bezier(.4,0,.2,1)',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
             }}
-        >
-            <Text variantType="h2">{title}</Text>
-            <Text variantType="p">
-                {body}
-                <Button variantType="textLink">
+        >      
+            <div className='h-13'>
+                <Text variantType="h2">{title}</Text>
+            </div>
+            <div
+                ref={textRef}
+                style={{
+                    maxHeight: expanded ? 500 : 72,
+                    overflow: 'hidden',
+                    transition: 'max-height 0.3s cubic-bezier(.4,0,.2,1)',
+                    display: '-webkit-box',
+                    WebkitLineClamp: expanded ? 'unset' : 3,
+                    WebkitBoxOrient: 'vertical',
+                }}
+                className=''
+            >
+                <Text variantType="p">{body}</Text>
+            </div>
+            {showButton && !expanded && (
+                <Button variantType="textLink" onClick={() => setExpanded(true)}>
                     ver más
                 </Button>
-            </Text>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" mt={2}>
+            )}
+            {expanded && (
+                <Button variantType="textLink" onClick={() => setExpanded(false)}>
+                    ver menos
+                </Button>
+            )}
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 20,
+                    justifyContent: 'flex-end',
+                    marginTop: 'auto',
+                }}
+            >
                 <Text variantType="mail">{email}</Text>
                 <Stack direction="row" spacing={1}>
                     <Button variantType="delete" onClick={onDelete} aria-label="Eliminar">
@@ -50,8 +94,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({
                         <EditIcon />
                     </Button>
                 </Stack>
-            </Stack>
+            </div>
         </Box>
     );
 };
-

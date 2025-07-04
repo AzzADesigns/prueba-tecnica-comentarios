@@ -14,12 +14,12 @@ const getTextStyles = (variantType: TextVariant = 'p'): React.CSSProperties => {
             return {
                 fontSize: '2.5rem',
                 fontWeight: 700,
-                color: '#171717',
+                color: '#000',
                 margin: 0,
             };
         case 'h2':
             return {
-                fontSize: '1.25rem',
+                fontSize: '1rem',
                 fontWeight: 700,
                 color: '#171717',
                 margin: 0,
