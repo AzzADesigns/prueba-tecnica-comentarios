@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { commentsApi, Comment } from '../adapters/CommentsApi';
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { commentsApi, Comment } from "../adapters/CommentsApi";
 
 const PAGE_SIZE = 10;
 
@@ -20,7 +20,7 @@ export function usePaginatedComments() {
         isError,
         isFetching,
     } = useQuery<Comment[], Error>({
-        queryKey: ['comments', page],
+        queryKey: ["comments", page],
         queryFn: () => fetchCommentsPage(page),
     });
 
@@ -28,7 +28,10 @@ export function usePaginatedComments() {
         if (comments) {
             setAllComments((prev) => {
                 const ids = new Set(prev.map((c: Comment) => c.id));
-                return [...prev, ...comments.filter((c: Comment) => !ids.has(c.id))];
+                return [
+                    ...prev,
+                    ...comments.filter((c: Comment) => !ids.has(c.id)),
+                ];
             });
             setHasMore(comments.length === PAGE_SIZE);
         }
@@ -43,4 +46,4 @@ export function usePaginatedComments() {
         isFetching,
         hasMore,
     };
-} 
+}

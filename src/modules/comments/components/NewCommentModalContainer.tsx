@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
-import { Modal } from '@/GLOBAL/ui/molecules/Modal/Modal';
-import { FormComment } from '@/GLOBAL/ui/molecules/FormComment/FormComment';
-import { Button } from '@/GLOBAL/ui/atoms/Button/Button';
-import { Box } from '@mui/material';
-import { Comment } from '../adapters/CommentsApi';
+import React, { useState } from "react";
+import { Modal } from "@/GLOBAL/ui/molecules/Modal/Modal";
+import { FormComment } from "@/GLOBAL/ui/molecules/FormComment/FormComment";
+import { Button } from "@/GLOBAL/ui/atoms/Button/Button";
+import { Box } from "@mui/material";
+import { useComments } from "../hooks/useComments";
+import { useLocalCommentsStore } from "../store/localCommentsStore";
+import { createLocalComment } from "../utils/commentUtils";
 
 interface NewCommentModalContainerProps {
-    onCommentCreated?: (comment: Comment) => void;
+    onCommentCreated?: () => void;
 }
 
-export const NewCommentModalContainer: React.FC<NewCommentModalContainerProps> = ({ onCommentCreated }) => {
+export const NewCommentModalContainer: React.FC<
+    NewCommentModalContainerProps
+> = ({ onCommentCreated }) => {
     const [open, setOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const { add, isCreating } = useComments();
+    const { addLocalComment } = useLocalCommentsStore();
 
     const handleOpen = () => {
         setOpen(true);
@@ -23,24 +28,28 @@ export const NewCommentModalContainer: React.FC<NewCommentModalContainerProps> =
         setError(null);
     };
 
-    const handleSubmit = async (data: { name: string; email: string; comment: string }) => {
-        setIsLoading(true);
+    const handleSubmit = async (data: {
+        name: string;
+        email: string;
+        comment: string;
+    }) => {
         setError(null);
         try {
-            // Simula un envío exitoso (reemplaza por tu lógica real de API)
-            await new Promise((res) => setTimeout(res, 1000));
-            const newComment: Comment = {
-                id: Math.floor(Math.random() * 1000000),
+            const localComment = createLocalComment(data);
+            addLocalComment(localComment);
+            await add({
                 name: data.name,
                 email: data.email,
                 body: data.comment,
-            };
-            if (onCommentCreated) onCommentCreated(newComment);
+            });
             setOpen(false);
-        } catch (e) {
-            setError('Ocurrió un error al enviar el comentario.');
-        } finally {
-            setIsLoading(false);
+            onCommentCreated?.();
+        } catch (error: unknown) {
+            const errorMessage =
+                error instanceof Error
+                    ? error.message
+                    : "Ocurrió un error al enviar el comentario.";
+            setError(errorMessage);
         }
     };
 
@@ -50,12 +59,13 @@ export const NewCommentModalContainer: React.FC<NewCommentModalContainerProps> =
                 Nuevo comentario
             </Button>
             <Modal open={open} onClose={handleClose} title="Nuevo comentario">
-                <FormComment
-                    onSubmit={handleSubmit}
-                    isLoading={isLoading}
-                />
-                {error && <Box color="error.main" mt={2}>{error}</Box>}
+                <FormComment onSubmit={handleSubmit} isLoading={isCreating} />
+                {error && (
+                    <Box color="error.main" mt={2}>
+                        {error}
+                    </Box>
+                )}
             </Modal>
         </Box>
     );
-}; 
+};

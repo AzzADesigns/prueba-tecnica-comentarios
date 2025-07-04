@@ -1,40 +1,97 @@
-import { useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCommentsStore } from '../store/commentsStore';
-import { Comment } from '../adapters/CommentsApi';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCommentsStore } from "../store/commentsStore";
+import { Comment } from "../adapters/CommentsApi";
 
 export function useComments() {
-    const { comments, status, fetch, add, edit, remove } = useCommentsStore();
+    const {
+        comments,
+        status,
+        isCreating,
+        isUpdating,
+        isDeleting,
+        fetch,
+        add,
+        edit,
+        remove,
+        addOptimistic,
+        editOptimistic,
+        removeOptimistic,
+    } = useCommentsStore();
     const queryClient = useQueryClient();
 
-    const { isLoading, isError, refetch } = useQuery({
-        queryKey: ['comments'],
+    const { isLoading, isError } = useQuery({
+        queryKey: ["comments"],
         queryFn: fetch,
-        enabled: comments.length === 0,
+        enabled: false,
     });
 
     const addMutation = useMutation({
         mutationFn: add,
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['comments'] }),
-    });
-    const editMutation = useMutation({
-        mutationFn: ({ id, comment }: { id: number; comment: Partial<Comment> }) => edit(id, comment),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['comments'] }),
-    });
-    const removeMutation = useMutation({
-        mutationFn: remove,
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['comments'] }),
+        onSuccess: () =>
+            queryClient.invalidateQueries({ queryKey: ["comments"] }),
     });
 
-    useEffect(() => {
-        if (comments.length === 0) refetch();
-    }, [comments.length, refetch]);
+    const editMutation = useMutation({
+        mutationFn: ({
+            id,
+            comment,
+        }: {
+            id: number;
+            comment: Partial<Comment>;
+        }) => edit(id, comment),
+        onSuccess: () =>
+            queryClient.invalidateQueries({ queryKey: ["comments"] }),
+    });
+
+    const removeMutation = useMutation({
+        mutationFn: remove,
+        onSuccess: () =>
+            queryClient.invalidateQueries({ queryKey: ["comments"] }),
+    });
+
+    // Optimistic mutations
+    const addOptimisticMutation = useMutation({
+        mutationFn: add,
+        onMutate: async (newComment) => {
+            // Optimistic update
+            addOptimistic(newComment);
+        },
+    });
+
+    const editOptimisticMutation = useMutation({
+        mutationFn: ({
+            id,
+            comment,
+        }: {
+            id: number;
+            comment: Partial<Comment>;
+        }) => edit(id, comment),
+        onMutate: async ({ id, comment }) => {
+            editOptimistic(id, comment);
+        },
+    });
+
+    const removeOptimisticMutation = useMutation({
+        mutationFn: remove,
+        onMutate: async (id) => {
+            removeOptimistic(id);
+        },
+    });
 
     return {
         comments,
-        status: isLoading ? 'loading' : isError ? 'error' : status,
-        add: addMutation.mutateAsync,
-        edit: (id: number, comment: Partial<Comment>) => editMutation.mutateAsync({ id, comment }),
-        remove: removeMutation.mutateAsync,
+        status: isLoading ? "loading" : isError ? "error" : status,
+        isCreating,
+        isUpdating,
+        isDeleting,
+        add: addOptimisticMutation.mutateAsync,
+        edit: (id: number, comment: Partial<Comment>) =>
+            editOptimisticMutation.mutateAsync({ id, comment }),
+        remove: removeOptimisticMutation.mutateAsync,
+        // Non-optimistic versions if needed
+        addSync: addMutation.mutateAsync,
+        editSync: (id: number, comment: Partial<Comment>) =>
+            editMutation.mutateAsync({ id, comment }),
+        removeSync: removeMutation.mutateAsync,
     };
-} 
+}
