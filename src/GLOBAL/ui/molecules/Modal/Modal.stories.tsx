@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
-import { Modal } from './Modal';
-import { Button } from '../../atoms/Button/Button';
+import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
+import { Modal } from "./Modal";
+import { Button } from "../../atoms/Button/Button";
 
 const meta: Meta<typeof Modal> = {
-    title: 'GLOBAL/ui/molecules/Modal',
+    title: "GLOBAL/ui/molecules/Modal",
     component: Modal,
 };
 export default meta;
@@ -18,8 +18,14 @@ export const Basic: Story = {
                 <Button variantType="base" onClick={() => setOpen(true)}>
                     Abrir Modal
                 </Button>
-                <Modal open={open} onClose={() => setOpen(false)} title="Modal de ejemplo">
-                    <div style={{ padding: 24 }}>Este es el contenido del modal.</div>
+                <Modal
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    title="Modal de ejemplo"
+                >
+                    <div style={{ padding: 24 }}>
+                        Este es el contenido del modal.
+                    </div>
                 </Modal>
             </>
         );
@@ -34,15 +40,27 @@ export const WithForm: Story = {
                 <Button variantType="base" onClick={() => setOpen(true)}>
                     Abrir Modal con Formulario
                 </Button>
-                <Modal open={open} onClose={() => setOpen(false)} title="Formulario">
-                    <form style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <Modal
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    title="Formulario"
+                >
+                    <form
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 16,
+                        }}
+                    >
                         <input placeholder="Nombre" />
                         <input placeholder="Email" />
                         <textarea placeholder="Comentario" />
-                        <Button variantType="comment" type="submit">Enviar</Button>
+                        <Button variantType="comment" type="submit">
+                            Enviar
+                        </Button>
                     </form>
                 </Modal>
             </>
         );
     },
-}; 
+};

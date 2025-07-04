@@ -2,9 +2,9 @@
 
 :root {
     /* Paleta principal */
-    --color-primary: #171717;    /* Negro (botón, texto principal) */
-    --color-secondary: #ffffff;  /* Blanco (fondo, tarjetas) */
-    --color-tertiary: #ededed;   /* Gris claro (bordes, detalles) */
+    --color-primary: #171717; /* Negro (botón, texto principal) */
+    --color-secondary: #ffffff; /* Blanco (fondo, tarjetas) */
+    --color-tertiary: #ededed; /* Gris claro (bordes, detalles) */
 
     /* Fondos y textos */
     --background: var(--color-secondary);

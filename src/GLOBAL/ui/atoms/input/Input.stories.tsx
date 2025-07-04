@@ -1,22 +1,22 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Input } from './Input';
+import type { Meta, StoryObj } from "@storybook/react";
+import { Input } from "./Input";
 
 const meta: Meta<typeof Input> = {
-    title: 'GLOBAL/ui/atoms/Input',
+    title: "GLOBAL/ui/atoms/Input",
     component: Input,
     argTypes: {
         variantType: {
-            control: 'select',
-            options: ['base', 'selected', 'error'],
+            control: "select",
+            options: ["base", "selected", "error"],
         },
         error: {
-            control: 'boolean',
+            control: "boolean",
         },
     },
     args: {
-        label: 'Nombre',
-        placeholder: 'Escribe tu nombre',
-        variantType: 'base',
+        label: "Nombre",
+        placeholder: "Escribe tu nombre",
+        variantType: "base",
         error: false,
     },
 };
@@ -27,24 +27,24 @@ export const Base: Story = {};
 
 export const Selected: Story = {
     args: {
-        variantType: 'selected',
+        variantType: "selected",
         error: false,
     },
 };
 
 export const ErrorByProp: Story = {
     args: {
-        variantType: 'base',
+        variantType: "base",
         error: true,
-        helperText: 'Este campo es obligatorio',
+        helperText: "Este campo es obligatorio",
     },
 };
 
 export const WithPlaceholder: Story = {
     args: {
-        label: 'Correo electrónico',
-        placeholder: 'ejemplo@correo.com',
-        variantType: 'base',
+        label: "Correo electrónico",
+        placeholder: "ejemplo@correo.com",
+        variantType: "base",
         error: false,
     },
 };

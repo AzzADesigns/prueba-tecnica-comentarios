@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const BASE_URL = 'https://jsonplaceholder.typicode.com/comments';
+const BASE_URL = "https://jsonplaceholder.typicode.com/comments";
 
 export interface Comment {
     postId?: number;
@@ -15,15 +15,29 @@ export const commentsApi = {
         const { data } = await axios.get(BASE_URL);
         return data;
     },
-    create: async (comment: Omit<Comment, 'id'>): Promise<Comment> => {
-        const { data } = await axios.post(BASE_URL, comment);
-        return data;
+    create: async (comment: Omit<Comment, "id">): Promise<Comment> => {
+        await new Promise((resolve) => setTimeout(resolve, 800));
+        const newComment: Comment = {
+            ...comment,
+            id: Math.floor(Math.random() * 1000000),
+            postId: 1, 
+        };
+        return newComment;
     },
     update: async (id: number, comment: Partial<Comment>): Promise<Comment> => {
-        const { data } = await axios.put(`${BASE_URL}/${id}`, comment);
-        return data;
+        await new Promise((resolve) => setTimeout(resolve, 600));
+        const updatedComment: Comment = {
+            id,
+            postId: 1,
+            name: comment.name || "",
+            email: comment.email || "",
+            body: comment.body || "",
+            ...comment,
+        };
+        return updatedComment;
     },
-    remove: async (id: number): Promise<void> => {
-        await axios.delete(`${BASE_URL}/${id}`);
+    remove: async (): Promise<void> => {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
     },
 };

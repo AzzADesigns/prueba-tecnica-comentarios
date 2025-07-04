@@ -1,22 +1,22 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { TextArea } from './TextArea';
+import type { Meta, StoryObj } from "@storybook/react";
+import { TextArea } from "./TextArea";
 
 const meta: Meta<typeof TextArea> = {
-    title: 'GLOBAL/ui/atoms/TextArea',
+    title: "GLOBAL/ui/atoms/TextArea",
     component: TextArea,
     argTypes: {
         variantType: {
-            control: 'select',
-            options: ['base', 'error'],
+            control: "select",
+            options: ["base", "error"],
         },
         error: {
-            control: 'boolean',
+            control: "boolean",
         },
     },
     args: {
-        label: 'Comentario',
-        placeholder: 'Escribe tu comentario...',
-        variantType: 'base',
+        label: "Comentario",
+        placeholder: "Escribe tu comentario...",
+        variantType: "base",
         error: false,
     },
 };
@@ -28,6 +28,6 @@ export const Base: Story = {};
 export const Error: Story = {
     args: {
         error: true,
-        helperText: 'Este campo es obligatorio',
+        helperText: "Este campo es obligatorio",
     },
-}; 
+};
