@@ -1,5 +1,41 @@
 # Aplicación de Comentarios - Documentación General
 
+## 🚀 Pasos para correr la aplicación
+
+1. **Clona el repositorio:**
+   ```bash
+   git clone <URL_DEL_REPO>
+   cd comentarios-ed-pt
+   ```
+
+2. **Instala las dependencias:**
+   ```bash
+   npm install
+   # o
+   yarn install
+   ```
+
+3. **Levanta la aplicación en modo desarrollo:**
+   ```bash
+   npm run dev
+   # o
+   yarn dev
+   ```
+
+4. **Abre tu navegador en:**
+   ```
+   http://localhost:3000
+   ```
+
+5. **(Opcional) Corre Storybook para ver los componentes UI:**
+   ```bash
+   npm run storybook
+   # o
+   yarn storybook
+   ```
+
+---
+
 ## 1. Arquitectura General
 
 La aplicación sigue los principios de **Atomic Design**, **SOLID** y **SRP**, y está construida sobre Next.js con React, Zustand para estado global, y React Query para manejo de datos asíncronos y cache.
